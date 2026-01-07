@@ -45,23 +45,23 @@ Example JSONL:
 
 ## How It Works
 
-Long documents are split into chunks
-Each chunk is summarized independently
-Chunk summaries are combined into a final summary
-Batch mode processes multiple documents with progress tracking
+- Long documents are split into chunks
+- Each chunk is summarized independently
+- Chunk summaries are combined into a final summary
+- Batch mode processes multiple documents with progress tracking
 
 ## Run Locally
 
-git clone https://github.com/rohan-crypto/legal-document-summarizer.git
-cd legal-doc-summarizer
-pip install -r requirements.txt
-streamlit run app.py
+- git clone https://github.com/rohan-crypto/legal-document-summarizer.git
+- cd legal-doc-summarizer
+- pip install -r requirements.txt
+- streamlit run app.py
 
-Deployed using Streamlit Community Cloud.
+### Deployed using Streamlit Community Cloud.
 
 ## Future Improvements
 
-Model comparison (BART vs PEGASUS)
-ROUGE-based evaluation
-PDF support
-API endpoint
+- Model comparison (BART vs PEGASUS)
+- ROUGE-based evaluation
+- PDF support
+- API endpoint
