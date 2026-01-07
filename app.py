@@ -108,6 +108,7 @@ if st.button("Generate Summary"):
                     progress = (i + 1) / len(text_to_summarize)
                     progress_bar.progress(progress)
                 summary_output = "\n\n".join(all_summaries)
+                json_output = json.dumps(json_summaries, indent=2)
             else: # single document
                 summary_output = summarize(text_to_summarize, max_words_per_chunk=max_words_chunk, max_summary_length=max_summary_len)
         st.success("Summary Generated!")
@@ -120,9 +121,11 @@ if st.button("Generate Summary"):
             file_name="legal_summaries.txt",
             mime="text/plain"
         )
-        st.download_button(
-            label="Download Summaries as JSON",
-            data=json_output,
-            file_name="legal_summaries.json",
-            mime="application/json"
-        )
+        # In single document mode, json_output won’t exist so wrapping it in batch mode
+        if isinstance(text_to_summarize, list): # batch mode
+            st.download_button(
+                label="Download Summaries as JSON",
+                data=json_output,
+                file_name="legal_summaries.json",
+                mime="application/json"
+            )
