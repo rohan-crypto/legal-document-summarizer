@@ -57,7 +57,7 @@ Example JSONL:
 - pip install -r requirements.txt
 - streamlit run app.py
 
-### Deployed using Streamlit Community Cloud.
+### Deployed using Streamlit Community Cloud at https://legal-document-summarizer-nnwruuquyw7vdlbygnc9xn.streamlit.app/
 
 ## Future Improvements
 
