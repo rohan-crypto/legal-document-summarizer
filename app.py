@@ -10,7 +10,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 # Initialize summarization pipeline
-summarizer = pipeline("summarization", model=model, tokenizer=tokenizer, device=0) # device=0 uses MPS on Mac
+summarizer = pipeline("summarization", model=model, tokenizer=tokenizer, device=-1) # device=0 uses MPS on Mac
 
 # Function to chunk text
 def chunk_text(text, max_words=500):
