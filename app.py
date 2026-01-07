@@ -33,7 +33,7 @@ def summarize(text, max_words_per_chunk=500, max_summary_length=256):
     # Array of chunks of 500 words. But instead of words now using tokens.
     #chunks = chunk_text(text, max_words=max_words_per_chunk)
     # * 1.3 because it is approx word to token conversion and Keeps slider intuitive for users and Caps safely below 1024.
-    chunks = chunk_text(text, tokenizer=tokenizer, max_tokens=min(int(max_words_per_chunk * 1.3), 900)
+    chunks = chunk_text(text, tokenizer=tokenizer, max_tokens=min(int(max_words_per_chunk * 1.3), 900))
     chunk_summaries = []
     for chunk in chunks:
         # Summarizing every chunk and storing in array
