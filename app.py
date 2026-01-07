@@ -13,18 +13,27 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 summarizer = pipeline("summarization", model=model, tokenizer=tokenizer, device=-1) # device=0 uses MPS on Mac
 
 # Function to chunk text
-def chunk_text(text, max_words=500):
-    words = text.split()
+# BART works on tokens so, instead of counting by words count with tokens. Hard limit of BART is 1024 tokens. So it will break if slider is >650.
+# OLD code: def chunk_text(text, max_words=500):
+def chunk_text(text, tokenizer, max_tokens=900):
+    # words = text.split()
+    tokens = tokenizer.encode(text, truncation=False)
     chunks = []
-    for i in range(0, len(words), max_words):
-        chunk = " ".join(words[i:i+max_words])
-        chunks.append(chunk)
+    #for i in range(0, len(words), max_words):
+    #    chunk = " ".join(words[i:i+max_words])
+    #    chunks.append(chunk)
+    for i in range(0, len(tokens), max_tokens):
+        chunk_tokens = tokens[i:i+max_tokens]
+        chunk_text = tokenizer.decode(chunk_tokens, skip_special_tokens=True)
+        chunks.append(chunk_text)
     return chunks
 
 # Function to summarize text with chunking
 def summarize(text, max_words_per_chunk=500, max_summary_length=256):
-    # Array of chunks of 500 words
-    chunks = chunk_text(text, max_words=max_words_per_chunk)
+    # Array of chunks of 500 words. But instead of words now using tokens.
+    #chunks = chunk_text(text, max_words=max_words_per_chunk)
+    # * 1.3 because it is approx word to token conversion and Keeps slider intuitive for users and Caps safely below 1024.
+    chunks = chunk_text(text, tokenizer=tokenizer, max_tokens=min(int(max_words_per_chunk * 1.3), 900)
     chunk_summaries = []
     for chunk in chunks:
         # Summarizing every chunk and storing in array
@@ -83,7 +92,8 @@ elif input_option == "Upload File":
             text_to_summarize = " ".join(text_entries[:MAX_DOCS]) # single summary
 
 # Sliders for chunk size and summary length
-max_words_chunk = st.slider("Words per chunk (for long documents)", 200, 1000, 500)
+# Correcting the max_words_chunk slider's limits.
+max_words_chunk = st.slider("Approx words per chunk (auto-token-safe)", 200, 800, 500)
 max_summary_len = st.slider("Maximum summary length", 50, 512, 256)
 
 # Summarize button
