@@ -40,7 +40,6 @@ Supports single-document and batch summarization with progress tracking and down
 - `.jsonl` — One document per line with a `text` field
 
 Example JSONL:
-```json
 {"text": "SECTION 1. SHORT TITLE..."}
 {"text": "SEC. 2. FINDINGS..."}
 
